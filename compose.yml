@@ -1,30 +1,4 @@
-services:
-  aws-emulator:
-    build: .
-    ports:
-      - "127.0.0.1:9297:9297"
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-    volumes:
-      - ./home:/home/emulator/.aws/emulator
-    entrypoint: ["aws-emulator", "-b", "0.0.0.0"]
-    command: ["-p", "9297", "-a", "on", "--telemetry", "off"]
+include:
+  - emulator.yml
+  - client.yml
 
-  app-client:
-    build: ./client
-    # Add this line:
-    network_mode: "host" 
-    depends_on:
-      - aws-emulator
-    environment:
-      - AWS_DEFAULT_REGION=us-east-1
-      # Change this to localhost/127.0.0.1
-      - AWS_ENDPOINT_URL=https://127.0.0.1:9297
-      - AWS_SHARED_CREDENTIALS_FILE=/home/emulator/.aws/emulator/9297/emulator_credentials
-      - HOME=/home/emulator
-      - PYTHONWARNINGS=ignore:Unverified HTTPS request
-
-    volumes:
-      - ./home:/home/emulator/.aws/emulator
