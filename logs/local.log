@@ -1,0 +1,2 @@
+rm -rf home
+docker compose build
