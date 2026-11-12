@@ -1,0 +1,9 @@
+Attaching to app-client-1, aws-emulator-1
+aws-emulator-1  | {"timestamp":"2026-11-12T17:30:40.663871Z","level":"INFO","fields":{"message":"aws-emulator emulator starting"},"target":"aws_emulator"}
+aws-emulator-1  | This emulator collects usage and error telemetry: enabled (on by default; opt out any time); disable with EMULATOR_TELEMETRY=off or [telemetry] enabled = false in /home/emulator/.aws/emulator/config.toml
+aws-emulator-1  | {"timestamp":"2026-11-12T17:30:40.734048Z","level":"INFO","fields":{"message":"request authentication enabled","credentials_file":"/home/emulator/.aws/emulator/9297/emulator_credentials"},"target":"aws_emulator_server"}
+aws-emulator-1  | emulator serve failed: server I/O error: Is a directory (os error 21)
+aws-emulator-1 exited with code 1
+app-client-1    | Connecting to https://aws-emulator:9297...
+app-client-1    | Error: Could not connect to the endpoint URL: "https://aws-emulator:9297/test-bucket-from-client"
+app-client-1 exited with code 0

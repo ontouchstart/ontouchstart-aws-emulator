@@ -1,0 +1,17 @@
+docker compose up
+[+] up 1/1
+ ✔ Container ontouchstart-aws-emulator-aws-emulator-1 Recreated                                                         0.1s
+Attaching to app-client-1, aws-emulator-1
+aws-emulator-1  | {"timestamp":"2026-11-12T18:22:26.787065Z","level":"INFO","fields":{"message":"aws-emulator emulator starting"},"target":"aws_emulator"}
+aws-emulator-1  | This emulator collects usage and error telemetry: enabled (on by default; opt out any time); disable with EMULATOR_TELEMETRY=off or [telemetry] enabled = false in /home/emulator/.aws/emulator/config.toml
+aws-emulator-1  | {"timestamp":"2026-11-12T18:22:26.799221Z","level":"INFO","fields":{"message":"emulator server information","endpoint_url":"https://127.0.0.1:9297","health_check_url":"https://127.0.0.1:9297/__admin/health","config_file":"/home/emulator/.aws/emulator/9297/config","ca_file":"/home/emulator/.aws/emulator/9297/ca.pem","java_truststore_file":"/home/emulator/.aws/emulator/9297/truststore.p12"},"target":"aws_emulator_server"}
+aws-emulator-1  | {"timestamp":"2026-11-12T18:22:26.799243Z","level":"WARN","fields":{"message":"the emulator listens on 0.0.0.0, not loopback: other machines that can reach port 9297 can call it; bind 127.0.0.1 (-b 127.0.0.1) unless that is intended","bind_address":"0.0.0.0"},"target":"aws_emulator_server"}
+aws-emulator-1  | {"timestamp":"2026-11-12T18:22:26.799247Z","level":"WARN","fields":{"message":"request authentication is off: the emulator accepts any request, signed or not; start it with -a on to require signatures","bind_address":"0.0.0.0"},"target":"aws_emulator_server"}
+app-client-1    | /usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py:1129: InsecureRequestWarning: Unverified HTTPS request is being made to host 'aws-emulator'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+app-client-1    |   warnings.warn(
+app-client-1    | /usr/local/lib/python3.11/site-packages/urllib3/connectionpool.py:1129: InsecureRequestWarning: Unverified HTTPS request is being made to host 'aws-emulator'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+app-client-1    |   warnings.warn(
+app-client-1    | Connecting to https://aws-emulator:9297...
+app-client-1    | Successfully created bucket: test-bucket-from-client
+app-client-1    | Current Buckets: ['test-bucket-from-client']
+app-client-1 exited with code 0
