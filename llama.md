@@ -5332,3 +5332,174 @@ The test **passed**. The emulator is correctly generating credentials/certificat
 [ Prompt: 183.8 t/s | Generation: 6.3 t/s ]
 
 
+```
+nix run github:BaseLayer-AI/baselayer-ai-aarch64-darwin-llama-cpp -- cli -hf ggml-org/gemma-4-12B-it-GGUF:Q8_0 --reasoning on  --reasoning-effort max  
+
+
+Loading model...  
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b11669-620d222
+model      : ggml-org/gemma-4-12B-it-GGUF:Q8_0
+ftype      : Q8_0
+modalities : text, vision, audio, video
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+  /image <file>       add an image file
+  /audio <file>       add an audio file
+  /video <file>       add a video file
+```
+
+
+> /read github/ontouchstart/ontouchstart-aws-emulator/compose.yml
+Loaded text from 'github/ontouchstart/ontouchstart-aws-emulator/compose.yml'
+
+> Is it possible to put services in different files and include them in the master compose.yml?
+
+[Start thinking]
+
+*   Input: A `compose.yml` file containing two services (`aws-emulator` and `app-client`).
+    *   Question: "Is it possible to put services in different files and include them in the master compose.yml?"
+    *   Context: Docker Compose.
+
+    *   Yes, Docker Compose supports multiple files.
+    *   There are two primary ways to do this:
+        *   *Option A: Extension Files (`-f` flag)* - Using multiple files via the command line.
+        *   *Option B: The `include` directive* - A newer (but standard) way to nest/include files directly inside the YAML.
+
+    *   **Method 1: Using the `include` directive (Modern/Recommended for modularity)**
+        *   Explain the syntax.
+        *   Provide a concrete example based on the user's file.
+        *   *Structure:*
+            *   `compose.yml` (main)
+            *   `aws-emulator.yml` (sub-file)
+            *   `app-client.yml` (sub-file)
+
+    *   **Method 2: Using multiple `-f` flags (Traditional/Standard)**
+        *   Explain how `docker compose -f file1.yml -f file2.yml up` works.
+        *   Mention that the order matters (later files override earlier ones).
+
+    *   **Method 3: Using `extends` (Specific use case)**
+        *   Briefly mention it as an alternative for reusing configurations, though `include` is better for splitting entire services. (Actually, let's stick to `include` and `-f` as they are the most direct answers to "splitting files").
+
+    *   *Drafting the `include` example:*
+        *   Create `emulator.yml` with the `aws-emulator` service.
+        *   Create `client.yml` with the `app-client` service.
+        *   Create a main `compose.yml` that uses `include:`.
+
+    *   *Drafting the `-f` explanation:*
+        *   Show the command line.
+
+    *   *Pros/Cons/Context:*
+        *   `include` is cleaner for project structure.
+        *   `-f` is better for environment-specific overrides (e.g., `docker-compose.prod.yml`).
+
+    *   Make sure to address the specific services from the user's snippet.
+    *   Highlight that the `network_mode: "host"` might behave differently depending on the OS (Linux vs Mac/Windows), but stick to the user's configuration.
+[End thinking]
+
+Yes, there are two main ways to do this in Docker Compose.
+
+### Method 1: The `include` Directive (Recommended)
+This is the modern way to organize multiple files. You can have a main `compose.yml` that "pulls in" other files. Docker Compose will treat them as if they were all in one file.
+
+**Example Structure:**
+```text
+.
+├── compose.yml
+├── emulator.yml
+└── client.yml
+```
+
+**1. `emulator.yml`**
+```yaml
+services:
+  aws-emulator:
+    build: .
+    ports:
+      - "127.0.0.1:9297:9297"
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    volumes:
+      - ./home:/home/emulator/.aws/emulator
+    entrypoint: ["aws-emulator", "-b", "0.0.0.0"]
+    command: ["-p", "9297", "-a", "on", "--telemetry", "off"]
+```
+
+**2. `client.yml`**
+```yaml
+services:
+  app-client:
+    build: ./client
+    network_mode: "host" 
+    depends_on:
+      - aws-emulator
+    environment:
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ENDPOINT_URL=https://127.0.0.1:9297
+      - AWS_SHARED_CREDENTIALS_FILE=/home/emulator/.aws/emulator/9297/emulator_credentials
+      - HOME=/home/emulator
+      - PYTHONWARNINGS=ignore:Unverified HTTPS request
+    volumes:
+      - ./home:/home/emulator/.aws/emulator
+```
+
+**3. `compose.yml` (The Master File)**
+```yaml
+include:
+  - emulator.yml
+  - client.yml
+
+services:
+  # You can still define global services or 
+  # shared configurations here if needed
+  common-config:
+    image: alpine
+```
+
+---
+
+### Method 2: Multiple Files via Command Line (`-f` flag)
+This is the traditional method. You don't change the YAML syntax; instead, you tell Docker Compose which files to merge when running the command.
+
+**Example Structure:**
+```text
+.
+├── docker-compose.yml
+├── docker-compose.emulator.yml
+└── docker-compose.client.yml
+```
+
+To run this, you would use:
+```bash
+docker compose -f docker-compose.yml -f docker-compose.emulator.yml -f docker-compose.client.yml up
+```
+*Note: The files are merged in the order they are listed. If there are conflicting keys, the last file listed wins.*
+
+---
+
+### Which one should you use?
+
+| Feature | `include` (Method 1) | `-f` Flags (Method 2) |
+| :--- | :--- | :--- |
+| **Best for** | Organizing a large project into logical modules (e.g., `db.yml`, `frontend.yml`). | Environment-specific overrides (e.g., `docker-compose.prod.yml`). |
+| **Readability** | High. The master file acts as a "Table of Contents." | Low. You have to remember/type the full command every time. |
+| **Tooling** | Works natively with most IDEs (VS Code/IntelliJ) for linting. | Can sometimes confuse IDEs regarding where a service is defined. |
+
+**Recommendation:** Use **Method 1 (`include`)** for your specific case because it keeps your project structure clean while making it very easy to see everything at a glance in the master file.
+
+[ Prompt: 146.4 t/s | Generation: 7.1 t/s ]
