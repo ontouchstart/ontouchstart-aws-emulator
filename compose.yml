@@ -10,7 +10,7 @@ services:
     volumes:
       - ./home:/home/emulator/.aws/emulator
     entrypoint: ["aws-emulator", "-b", "0.0.0.0"]
-    command: ["-p", "9297", "-a", "on"] # Turn auth back on
+    command: ["-p", "9297", "-a", "on", "--telemetry", "off"]
 
 
   app-client:
