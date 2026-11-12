@@ -1,8 +1,8 @@
 name: make
 on: push
 jobs:
-  aarch64-linux:
-    runs-on: ubuntu-26.04-arm
+  macos-26:
+    runs-on: macos-26
     steps:
     - uses: actions/checkout@v7
     - name: uname -a
