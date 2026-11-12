@@ -1,0 +1,378 @@
+2026-11-12T22:10:24.9049855Z Current runner version: '2.338.2'
+2026-11-12T22:10:24.9084447Z ##[group]Runner Image Provisioner
+2026-11-12T22:10:24.9085547Z Hosted Compute Agent
+2026-11-12T22:10:24.9086361Z Version: 20261103.629
+2026-11-12T22:10:24.9087574Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-12T22:10:24.9088406Z Build Date: 2026-11-03T17:26:59Z
+2026-11-12T22:10:24.9089342Z Worker ID: {6cecd678-8ba8-46ed-89bc-938518eae29b}
+2026-11-12T22:10:24.9090074Z Region: westus2
+2026-11-12T22:10:24.9090703Z Cloud: Azure
+2026-11-12T22:10:24.9091305Z ##[endgroup]
+2026-11-12T22:10:24.9093473Z ##[group]Operating System
+2026-11-12T22:10:24.9094429Z Ubuntu
+2026-11-12T22:10:24.9094973Z 26.04.1
+2026-11-12T22:10:24.9095552Z LTS
+2026-11-12T22:10:24.9096134Z ##[endgroup]
+2026-11-12T22:10:24.9097084Z ##[group]Runner Image
+2026-11-12T22:10:24.9097833Z Image: ubuntu-26.04-arm
+2026-11-12T22:10:24.9098464Z Version: 20261111.184.1
+2026-11-12T22:10:24.9099959Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26-arm64/20261111.184/images/ubuntu/Ubuntu2604-Arm64-Readme.md
+2026-11-12T22:10:24.9101659Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26-arm64%2F20261111.184
+2026-11-12T22:10:24.9102754Z ##[endgroup]
+2026-11-12T22:10:24.9104088Z ##[group]GITHUB_TOKEN Permissions
+2026-11-12T22:10:24.9107478Z Contents: read
+2026-11-12T22:10:24.9108189Z Metadata: read
+2026-11-12T22:10:24.9108773Z Packages: read
+2026-11-12T22:10:24.9109591Z ##[endgroup]
+2026-11-12T22:10:24.9113345Z Secret source: Actions
+2026-11-12T22:10:24.9114601Z Cache mode: write
+2026-11-12T22:10:24.9115671Z Prepare workflow directory
+2026-11-12T22:10:24.9554903Z Prepare all required actions
+2026-11-12T22:10:24.9613452Z Getting action download info
+2026-11-12T22:10:25.3278340Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-12T22:10:25.5363706Z Complete job name: aarch64-linux
+2026-11-12T22:10:25.6392013Z ##[group]Run actions/checkout@v7
+2026-11-12T22:10:25.6393518Z with:
+2026-11-12T22:10:25.6394286Z   repository: ontouchstart/ontouchstart-aws-emulator
+2026-11-12T22:10:25.6398426Z   token: ***
+2026-11-12T22:10:25.6399155Z   ssh-strict: true
+2026-11-12T22:10:25.6399850Z   ssh-user: git
+2026-11-12T22:10:25.6400573Z   persist-credentials: true
+2026-11-12T22:10:25.6401245Z   clean: true
+2026-11-12T22:10:25.6401903Z   sparse-checkout-cone-mode: true
+2026-11-12T22:10:25.6402725Z   fetch-depth: 1
+2026-11-12T22:10:25.6403334Z   fetch-tags: false
+2026-11-12T22:10:25.6403921Z   show-progress: true
+2026-11-12T22:10:25.6404585Z   lfs: false
+2026-11-12T22:10:25.6405146Z   submodules: false
+2026-11-12T22:10:25.6405823Z   set-safe-directory: true
+2026-11-12T22:10:25.6407003Z   allow-unsafe-pr-checkout: false
+2026-11-12T22:10:25.6408278Z ##[endgroup]
+2026-11-12T22:10:25.7346738Z Syncing repository: ontouchstart/ontouchstart-aws-emulator
+2026-11-12T22:10:25.7349883Z ##[group]Getting Git version info
+2026-11-12T22:10:25.7351044Z Working directory is '/home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator'
+2026-11-12T22:10:25.7352780Z [command]/usr/bin/git version
+2026-11-12T22:10:25.7353442Z git version 2.56.1
+2026-11-12T22:10:25.7355927Z ##[endgroup]
+2026-11-12T22:10:25.7374235Z Temporarily overriding HOME='/home/runner/work/_temp/ae912eed-71e7-4979-bcff-0aceb91ccc2d' before making global git config changes
+2026-11-12T22:10:25.7376062Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-12T22:10:25.7377889Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator
+2026-11-12T22:10:25.7420480Z Deleting the contents of '/home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator'
+2026-11-12T22:10:25.7422294Z ##[group]Determining repository object format
+2026-11-12T22:10:25.7423567Z ##[endgroup]
+2026-11-12T22:10:25.7424685Z ##[group]Initializing the repository
+2026-11-12T22:10:25.7439036Z [command]/usr/bin/git init /home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator
+2026-11-12T22:10:25.7537658Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-12T22:10:25.7539725Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-12T22:10:25.7541309Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-12T22:10:25.7542368Z hint: call:
+2026-11-12T22:10:25.7543292Z hint:
+2026-11-12T22:10:25.7544245Z hint: 	git config --global init.defaultBranch <name>
+2026-11-12T22:10:25.7545342Z hint:
+2026-11-12T22:10:25.7546358Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-12T22:10:25.7547967Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-12T22:10:25.7549220Z hint:
+2026-11-12T22:10:25.7549996Z hint: 	git branch -m <name>
+2026-11-12T22:10:25.7550954Z hint:
+2026-11-12T22:10:25.7552080Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-12T22:10:25.7553912Z Initialized empty Git repository in /home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator/.git/
+2026-11-12T22:10:25.7558831Z [command]/usr/bin/git remote add origin https://github.com/ontouchstart/ontouchstart-aws-emulator
+2026-11-12T22:10:25.7605146Z ##[endgroup]
+2026-11-12T22:10:25.7606310Z ##[group]Disabling automatic garbage collection
+2026-11-12T22:10:25.7608931Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-12T22:10:25.7645736Z ##[endgroup]
+2026-11-12T22:10:25.7647720Z ##[group]Setting up auth
+2026-11-12T22:10:25.7648517Z Removing SSH command configuration
+2026-11-12T22:10:25.7651051Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-12T22:10:25.7689056Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-12T22:10:25.8112450Z Removing HTTP extra header
+2026-11-12T22:10:25.8117792Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-12T22:10:25.8151637Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-12T22:10:25.8428943Z Removing includeIf entries pointing to credentials config files
+2026-11-12T22:10:25.8433827Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-12T22:10:25.8467283Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-12T22:10:25.8750569Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-0ce7d4a9-c1c1-4fcc-9c5a-4ab698b48aa8.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-12T22:10:25.8794360Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator/.git.path /home/runner/work/_temp/git-credentials-0ce7d4a9-c1c1-4fcc-9c5a-4ab698b48aa8.config
+2026-11-12T22:10:25.8830694Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-0ce7d4a9-c1c1-4fcc-9c5a-4ab698b48aa8.config
+2026-11-12T22:10:25.8864731Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-0ce7d4a9-c1c1-4fcc-9c5a-4ab698b48aa8.config
+2026-11-12T22:10:25.8899078Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-0ce7d4a9-c1c1-4fcc-9c5a-4ab698b48aa8.config
+2026-11-12T22:10:25.8931981Z ##[endgroup]
+2026-11-12T22:10:25.8933351Z ##[group]Fetching the repository
+2026-11-12T22:10:25.8938475Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +2fefe3525dfdfef07ff4df560c561e45127c5f21:refs/remotes/origin/main
+2026-11-12T22:10:26.2912961Z From https://github.com/ontouchstart/ontouchstart-aws-emulator
+2026-11-12T22:10:26.2914336Z  * [new ref]         2fefe3525dfdfef07ff4df560c561e45127c5f21 -> origin/main
+2026-11-12T22:10:26.2925604Z [command]/usr/bin/git branch --list --remote origin/main
+2026-11-12T22:10:26.2955127Z   origin/main
+2026-11-12T22:10:26.2963455Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-11-12T22:10:26.2994892Z 2fefe3525dfdfef07ff4df560c561e45127c5f21
+2026-11-12T22:10:26.2998770Z ##[endgroup]
+2026-11-12T22:10:26.3000458Z ##[group]Determining the checkout info
+2026-11-12T22:10:26.3002074Z ##[endgroup]
+2026-11-12T22:10:26.3002973Z [command]/usr/bin/git sparse-checkout disable
+2026-11-12T22:10:26.3049654Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-12T22:10:26.3082704Z ##[group]Checking out the ref
+2026-11-12T22:10:26.3084077Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-11-12T22:10:26.3153459Z Switched to a new branch 'main'
+2026-11-12T22:10:26.3162951Z branch 'main' set up to track 'origin/main'.
+2026-11-12T22:10:26.3173923Z ##[endgroup]
+2026-11-12T22:10:26.3203383Z [command]/usr/bin/git log -1 --format=%H
+2026-11-12T22:10:26.3228919Z 2fefe3525dfdfef07ff4df560c561e45127c5f21
+2026-11-12T22:10:26.3499115Z ##[group]Run uname -a
+2026-11-12T22:10:26.3500113Z [36;1muname -a[0m
+2026-11-12T22:10:26.3610857Z shell: /usr/bin/bash -e {0}
+2026-11-12T22:10:26.3611992Z ##[endgroup]
+2026-11-12T22:10:26.3750258Z Linux runnervm7prg7 7.0.0-1019-azure #20-Ubuntu SMP PREEMPT Mon Oct 19 23:06:15 UTC 2026 aarch64 GNU/Linux
+2026-11-12T22:10:26.3829515Z ##[group]Run make
+2026-11-12T22:10:26.3830456Z [36;1mmake[0m
+2026-11-12T22:10:26.3882966Z shell: /usr/bin/bash -e {0}
+2026-11-12T22:10:26.3884042Z ##[endgroup]
+2026-11-12T22:10:26.4002682Z # 1. Prepare the directory and ensure the container can write to it
+2026-11-12T22:10:26.4010584Z rm -rf home
+2026-11-12T22:10:26.4019218Z mkdir home
+2026-11-12T22:10:26.4042713Z chmod 777 home
+2026-11-12T22:10:26.4067762Z # 2. Build and start the emulator
+2026-11-12T22:10:26.4075398Z docker compose build
+2026-11-12T22:10:26.7393163Z  Image ontouchstart-aws-emulator-aws-emulator Building 
+2026-11-12T22:10:26.8942995Z  Image ontouchstart-aws-emulator-app-client Building 
+2026-11-12T22:10:26.8944682Z #1 [internal] load local bake definitions
+2026-11-12T22:10:27.0447397Z #1 reading from stdin 1.22kB done
+2026-11-12T22:10:27.0449571Z #1 DONE 0.0s
+2026-11-12T22:10:27.3960423Z 
+2026-11-12T22:10:27.3961517Z #2 [app-client internal] load build definition from Dockerfile
+2026-11-12T22:10:27.3962374Z #2 transferring dockerfile: 135B done
+2026-11-12T22:10:27.3963174Z #2 DONE 0.1s
+2026-11-12T22:10:27.3963362Z 
+2026-11-12T22:10:27.3963620Z #3 [aws-emulator internal] load build definition from Dockerfile
+2026-11-12T22:10:27.3964159Z #3 transferring dockerfile: 433B done
+2026-11-12T22:10:27.3964569Z #3 DONE 0.1s
+2026-11-12T22:10:27.3964716Z 
+2026-11-12T22:10:27.3965145Z #4 [aws-emulator internal] load metadata for public.ecr.aws/amazonlinux/amazonlinux:2023-minimal
+2026-11-12T22:10:27.6064579Z #4 ...
+2026-11-12T22:10:27.6064946Z 
+2026-11-12T22:10:27.6065226Z #5 [auth] library/python:pull token for registry-1.docker.io
+2026-11-12T22:10:27.6065683Z #5 DONE 0.0s
+2026-11-12T22:10:27.6805621Z 
+2026-11-12T22:10:27.6806998Z #4 [aws-emulator internal] load metadata for public.ecr.aws/amazonlinux/amazonlinux:2023-minimal
+2026-11-12T22:10:27.6810728Z #4 DONE 0.4s
+2026-11-12T22:10:27.6813817Z 
+2026-11-12T22:10:27.6814190Z #6 [app-client internal] load metadata for docker.io/library/python:3.11-slim
+2026-11-12T22:10:27.8724488Z #6 ...
+2026-11-12T22:10:27.8724900Z 
+2026-11-12T22:10:27.8725106Z #7 [aws-emulator internal] load .dockerignore
+2026-11-12T22:10:27.8725461Z #7 transferring context: 2B done
+2026-11-12T22:10:27.8727439Z #7 DONE 0.0s
+2026-11-12T22:10:27.8762787Z 
+2026-11-12T22:10:27.8765955Z #8 [aws-emulator 1/3] FROM public.ecr.aws/amazonlinux/amazonlinux:2023-minimal@sha256:158a9044f9dc0777f098b76c8b54346f6ed4560b9a6a416dec7a5ba3bc483af4
+2026-11-12T22:10:27.8768020Z #8 resolve public.ecr.aws/amazonlinux/amazonlinux:2023-minimal@sha256:158a9044f9dc0777f098b76c8b54346f6ed4560b9a6a416dec7a5ba3bc483af4 0.0s done
+2026-11-12T22:10:27.8769950Z #8 sha256:eb3e0c2af77f6f676dad7bbc4ad4c59aff7d8cdd4c49d880bd8ee46fe1de2f4e 18.87MB / 36.20MB 0.2s
+2026-11-12T22:10:28.0258868Z #8 sha256:eb3e0c2af77f6f676dad7bbc4ad4c59aff7d8cdd4c49d880bd8ee46fe1de2f4e 36.20MB / 36.20MB 0.3s
+2026-11-12T22:10:28.1550538Z #8 ...
+2026-11-12T22:10:28.1554464Z 
+2026-11-12T22:10:28.1555511Z #6 [app-client internal] load metadata for docker.io/library/python:3.11-slim
+2026-11-12T22:10:28.1556308Z #6 DONE 0.9s
+2026-11-12T22:10:28.1556969Z 
+2026-11-12T22:10:28.1557759Z #8 [aws-emulator 1/3] FROM public.ecr.aws/amazonlinux/amazonlinux:2023-minimal@sha256:158a9044f9dc0777f098b76c8b54346f6ed4560b9a6a416dec7a5ba3bc483af4
+2026-11-12T22:10:28.1559479Z #8 sha256:eb3e0c2af77f6f676dad7bbc4ad4c59aff7d8cdd4c49d880bd8ee46fe1de2f4e 36.20MB / 36.20MB 0.3s done
+2026-11-12T22:10:28.1563274Z #8 extracting sha256:eb3e0c2af77f6f676dad7bbc4ad4c59aff7d8cdd4c49d880bd8ee46fe1de2f4e
+2026-11-12T22:10:28.3492433Z #8 ...
+2026-11-12T22:10:28.3493022Z 
+2026-11-12T22:10:28.3493977Z #9 [app-client internal] load .dockerignore
+2026-11-12T22:10:28.3504384Z #9 transferring context: 2B done
+2026-11-12T22:10:28.3505460Z #9 DONE 0.0s
+2026-11-12T22:10:28.3514477Z 
+2026-11-12T22:10:28.3515121Z #10 [app-client internal] load build context
+2026-11-12T22:10:28.3524264Z #10 transferring context: 1.47kB done
+2026-11-12T22:10:28.3525091Z #10 DONE 0.0s
+2026-11-12T22:10:28.5652835Z 
+2026-11-12T22:10:28.5655624Z #11 [app-client 1/4] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+2026-11-12T22:10:28.5658636Z #11 resolve docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535 0.0s done
+2026-11-12T22:10:28.5664571Z #11 sha256:fcbeeb45cd1cf136fffaf014b8fc57ccb988656fc5332a1a25d0e89c15afd188 250B / 250B 0.1s done
+2026-11-12T22:10:28.5685022Z #11 sha256:e8ca77f52ccd0a1b3d368a1dcce36cedc0e4c6e7a68c6927b00887bd42e5962f 14.41MB / 14.41MB 0.3s done
+2026-11-12T22:10:28.5686134Z #11 sha256:657dd043283949b1db9fb6ca42fd6e72c5ef8ad0def89051c502253d2db82881 0B / 1.27MB 0.2s
+2026-11-12T22:10:28.5687071Z #11 sha256:acd43e9bebc37bc4ba7a5f47bd7598913337803e53d468f37d940f11f5d5f1ef 0B / 30.21MB 0.2s
+2026-11-12T22:10:28.7199470Z #11 ...
+2026-11-12T22:10:28.7199741Z 
+2026-11-12T22:10:28.7200396Z #12 [aws-emulator 2/3] ADD https://downloads.aws.com/aws-emulator/packages/aws-emulator/LTS/latest/aws-emulator-aarch64.rpm /tmp/aws-emulator.rpm
+2026-11-12T22:10:28.7201393Z #12 DONE 0.9s
+2026-11-12T22:10:28.7201551Z 
+2026-11-12T22:10:28.7201962Z #11 [app-client 1/4] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+2026-11-12T22:10:28.7202734Z #11 sha256:657dd043283949b1db9fb6ca42fd6e72c5ef8ad0def89051c502253d2db82881 1.27MB / 1.27MB 0.3s done
+2026-11-12T22:10:28.7203572Z #11 sha256:acd43e9bebc37bc4ba7a5f47bd7598913337803e53d468f37d940f11f5d5f1ef 30.21MB / 30.21MB 0.5s
+2026-11-12T22:10:28.9259972Z #11 sha256:acd43e9bebc37bc4ba7a5f47bd7598913337803e53d468f37d940f11f5d5f1ef 30.21MB / 30.21MB 0.5s done
+2026-11-12T22:10:28.9260766Z #11 extracting sha256:acd43e9bebc37bc4ba7a5f47bd7598913337803e53d468f37d940f11f5d5f1ef
+2026-11-12T22:10:29.0244773Z #11 ...
+2026-11-12T22:10:29.0247140Z 
+2026-11-12T22:10:29.0248234Z #8 [aws-emulator 1/3] FROM public.ecr.aws/amazonlinux/amazonlinux:2023-minimal@sha256:158a9044f9dc0777f098b76c8b54346f6ed4560b9a6a416dec7a5ba3bc483af4
+2026-11-12T22:10:29.0249222Z #8 extracting sha256:eb3e0c2af77f6f676dad7bbc4ad4c59aff7d8cdd4c49d880bd8ee46fe1de2f4e 1.0s done
+2026-11-12T22:10:29.0249960Z #8 DONE 1.3s
+2026-11-12T22:10:29.1752043Z 
+2026-11-12T22:10:29.1753365Z #13 [aws-emulator 2/3] ADD https://downloads.aws.com/aws-emulator/packages/aws-emulator/LTS/latest/aws-emulator-aarch64.rpm /tmp/aws-emulator.rpm
+2026-11-12T22:10:29.5386159Z #13 ...
+2026-11-12T22:10:29.5388286Z 
+2026-11-12T22:10:29.5389590Z #11 [app-client 1/4] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+2026-11-12T22:10:29.5395848Z #11 extracting sha256:acd43e9bebc37bc4ba7a5f47bd7598913337803e53d468f37d940f11f5d5f1ef 0.8s done
+2026-11-12T22:10:29.5396904Z #11 DONE 1.4s
+2026-11-12T22:10:29.6893017Z 
+2026-11-12T22:10:29.6911604Z #11 [app-client 1/4] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+2026-11-12T22:10:29.6913469Z #11 extracting sha256:657dd043283949b1db9fb6ca42fd6e72c5ef8ad0def89051c502253d2db82881
+2026-11-12T22:10:29.8178570Z #11 extracting sha256:657dd043283949b1db9fb6ca42fd6e72c5ef8ad0def89051c502253d2db82881 0.3s done
+2026-11-12T22:10:29.8179289Z #11 DONE 1.6s
+2026-11-12T22:10:29.8179746Z 
+2026-11-12T22:10:29.8181050Z #13 [aws-emulator 2/3] ADD https://downloads.aws.com/aws-emulator/packages/aws-emulator/LTS/latest/aws-emulator-aarch64.rpm /tmp/aws-emulator.rpm
+2026-11-12T22:10:30.4272904Z #13 ...
+2026-11-12T22:10:30.4273162Z 
+2026-11-12T22:10:30.4273899Z #11 [app-client 1/4] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+2026-11-12T22:10:30.4274701Z #11 extracting sha256:e8ca77f52ccd0a1b3d368a1dcce36cedc0e4c6e7a68c6927b00887bd42e5962f 0.6s done
+2026-11-12T22:10:30.4275189Z #11 DONE 2.2s
+2026-11-12T22:10:30.6079529Z 
+2026-11-12T22:10:30.6084475Z #11 [app-client 1/4] FROM docker.io/library/python:3.11-slim@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535
+2026-11-12T22:10:30.6085874Z #11 extracting sha256:fcbeeb45cd1cf136fffaf014b8fc57ccb988656fc5332a1a25d0e89c15afd188 0.0s done
+2026-11-12T22:10:30.6086921Z #11 DONE 2.3s
+2026-11-12T22:10:30.6087070Z 
+2026-11-12T22:10:30.6087184Z #14 [app-client 2/4] RUN pip install boto3
+2026-11-12T22:10:31.0881179Z #14 ...
+2026-11-12T22:10:31.0881454Z 
+2026-11-12T22:10:31.0881984Z #13 [aws-emulator 2/3] ADD https://downloads.aws.com/aws-emulator/packages/aws-emulator/LTS/latest/aws-emulator-aarch64.rpm /tmp/aws-emulator.rpm
+2026-11-12T22:10:31.0883132Z #13 DONE 2.1s
+2026-11-12T22:10:31.1956962Z 
+2026-11-12T22:10:31.1958345Z #15 [aws-emulator 3/3] RUN rpm -i /tmp/aws-emulator.rpm && rm /tmp/aws-emulator.rpm     && mkdir -p /home/emulator && chown 1000 /home/emulator
+2026-11-12T22:10:31.1959407Z #15 0.106 warning: /tmp/aws-emulator.rpm: Header V4 RSA/SHA512 Signature, key ID d940f624: NOKEY
+2026-11-12T22:10:35.9444693Z #15 ...
+2026-11-12T22:10:35.9445142Z 
+2026-11-12T22:10:35.9451237Z #14 [app-client 2/4] RUN pip install boto3
+2026-11-12T22:10:35.9453106Z #14 1.946 Collecting boto3
+2026-11-12T22:10:35.9453774Z #14 1.977   Downloading boto3-1.44.2-py3-none-any.whl.metadata (6.6 kB)
+2026-11-12T22:10:35.9454292Z #14 2.456 Collecting botocore<1.45.0,>=1.44.2 (from boto3)
+2026-11-12T22:10:35.9454744Z #14 2.464   Downloading botocore-1.44.2-py3-none-any.whl.metadata (5.6 kB)
+2026-11-12T22:10:35.9455267Z #14 2.486 Collecting jmespath<2.0.0,>=0.7.1 (from boto3)
+2026-11-12T22:10:35.9455767Z #14 2.494   Downloading jmespath-1.1.0-py3-none-any.whl.metadata (7.6 kB)
+2026-11-12T22:10:35.9456302Z #14 2.522 Collecting s3transfer<0.20.0,>=0.19.0 (from boto3)
+2026-11-12T22:10:35.9456973Z #14 2.531   Downloading s3transfer-0.19.3-py3-none-any.whl.metadata (1.7 kB)
+2026-11-12T22:10:35.9457587Z #14 2.559 Collecting python-dateutil<3.0.0,>=2.1 (from botocore<1.45.0,>=1.44.2->boto3)
+2026-11-12T22:10:35.9458262Z #14 2.567   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-11-12T22:10:35.9458907Z #14 2.612 Collecting urllib3!=2.2.0,<3,>=1.25.4 (from botocore<1.45.0,>=1.44.2->boto3)
+2026-11-12T22:10:35.9460130Z #14 2.620   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+2026-11-12T22:10:35.9460720Z #14 2.807 Collecting six>=1.5 (from python-dateutil<3.0.0,>=2.1->botocore<1.45.0,>=1.44.2->boto3)
+2026-11-12T22:10:35.9461272Z #14 2.815   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-11-12T22:10:35.9462260Z #14 2.833 Downloading boto3-1.44.2-py3-none-any.whl (140 kB)
+2026-11-12T22:10:35.9463038Z #14 2.848    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 140.2/140.2 kB 10.2 MB/s eta 0:00:00
+2026-11-12T22:10:35.9463498Z #14 2.856 Downloading botocore-1.44.2-py3-none-any.whl (16.3 MB)
+2026-11-12T22:10:35.9464174Z #14 2.997    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.3/16.3 MB 99.7 MB/s eta 0:00:00
+2026-11-12T22:10:35.9464631Z #14 3.005 Downloading jmespath-1.1.0-py3-none-any.whl (20 kB)
+2026-11-12T22:10:35.9465179Z #14 3.015 Downloading s3transfer-0.19.3-py3-none-any.whl (90 kB)
+2026-11-12T22:10:35.9465816Z #14 3.020    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.3/90.3 kB 29.1 MB/s eta 0:00:00
+2026-11-12T22:10:35.9466684Z #14 3.028 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-11-12T22:10:35.9467465Z #14 3.033    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 229.9/229.9 kB 68.0 MB/s eta 0:00:00
+2026-11-12T22:10:35.9467914Z #14 3.041 Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+2026-11-12T22:10:35.9468629Z #14 3.046    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 135.7/135.7 kB 40.4 MB/s eta 0:00:00
+2026-11-12T22:10:35.9469100Z #14 3.054 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-11-12T22:10:35.9469682Z #14 3.165 Installing collected packages: urllib3, six, jmespath, python-dateutil, botocore, s3transfer, boto3
+2026-11-12T22:10:35.9470583Z #14 3.895 Successfully installed boto3-1.44.2 botocore-1.44.2 jmespath-1.1.0 python-dateutil-2.9.0.post0 s3transfer-0.19.3 six-1.17.0 urllib3-2.8.0
+2026-11-12T22:10:35.9472191Z #14 3.896 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+2026-11-12T22:10:35.9473385Z #14 3.970 
+2026-11-12T22:10:35.9473695Z #14 3.970 [notice] A new release of pip is available: 24.0 -> 26.3
+2026-11-12T22:10:35.9474274Z #14 3.970 [notice] To update, run: pip install --upgrade pip
+2026-11-12T22:10:35.9474679Z #14 DONE 5.5s
+2026-11-12T22:10:36.0612345Z 
+2026-11-12T22:10:36.0613080Z #16 [app-client 3/4] WORKDIR /app
+2026-11-12T22:10:36.0613473Z #16 DONE 0.1s
+2026-11-12T22:10:36.0613619Z 
+2026-11-12T22:10:36.0614387Z #15 [aws-emulator 3/3] RUN rpm -i /tmp/aws-emulator.rpm && rm /tmp/aws-emulator.rpm     && mkdir -p /home/emulator && chown 1000 /home/emulator
+2026-11-12T22:10:36.2303599Z #15 ...
+2026-11-12T22:10:36.2304057Z 
+2026-11-12T22:10:36.2305044Z #17 [app-client 4/4] COPY main.py .
+2026-11-12T22:10:36.2305800Z #17 DONE 0.0s
+2026-11-12T22:10:36.2305942Z 
+2026-11-12T22:10:36.2306119Z #18 [app-client] exporting to image
+2026-11-12T22:10:36.2306663Z #18 exporting layers
+2026-11-12T22:10:37.8518150Z #18 exporting layers 1.8s done
+2026-11-12T22:10:38.0346150Z #18 exporting manifest sha256:d416c0b69ca574c6316e6b6c7e5ce1943e8e8357f0d698da52b81302d68e932b done
+2026-11-12T22:10:38.0347622Z #18 exporting config sha256:1b4c7e2032093d44c27cb4be636aaee609d6911084130a70e4a64a9333e5b54e done
+2026-11-12T22:10:38.0349946Z #18 exporting attestation manifest sha256:7dc24b542efebfd4b82770c0cc7c0e5cee137f991684218d3c5b805057ae3386 0.0s done
+2026-11-12T22:10:38.0351581Z #18 exporting manifest list sha256:904ba7780a4b4afbcef8227136ef7c3d055c4a14590b51ee5ceee5f988816a70 done
+2026-11-12T22:10:38.0353009Z #18 naming to docker.io/library/ontouchstart-aws-emulator-app-client:latest done
+2026-11-12T22:10:38.0353789Z #18 unpacking to docker.io/library/ontouchstart-aws-emulator-app-client:latest
+2026-11-12T22:10:38.4601516Z #18 unpacking to docker.io/library/ontouchstart-aws-emulator-app-client:latest 0.6s done
+2026-11-12T22:10:38.6855219Z #18 DONE 2.4s
+2026-11-12T22:10:38.6855822Z 
+2026-11-12T22:10:38.6856002Z #19 [app-client] resolving provenance for metadata file
+2026-11-12T22:10:38.6856357Z #19 DONE 0.0s
+2026-11-12T22:10:38.6856693Z 
+2026-11-12T22:10:38.6857212Z #15 [aws-emulator 3/3] RUN rpm -i /tmp/aws-emulator.rpm && rm /tmp/aws-emulator.rpm     && mkdir -p /home/emulator && chown 1000 /home/emulator
+2026-11-12T22:10:43.4366078Z #15 DONE 12.3s
+2026-11-12T22:10:43.5897555Z 
+2026-11-12T22:10:43.5898610Z #20 [aws-emulator] exporting to image
+2026-11-12T22:10:43.5899222Z #20 exporting layers
+2026-11-12T22:11:02.0801218Z #20 exporting layers 18.6s done
+2026-11-12T22:11:02.2532807Z #20 exporting manifest sha256:7ea225b2a25e935985bedab704ee19ff894b536c92848bfa2047df4016fa7a24 done
+2026-11-12T22:11:02.2533636Z #20 exporting config sha256:b9485c49314db4074e3b7593ab0c60dba3282de33f77013bdfc49455775ad190 done
+2026-11-12T22:11:02.2534365Z #20 exporting attestation manifest sha256:ef52fe74e1badf941cb8764e4d0c0c00eb04e909c1decbc41e45de89227c5813 done
+2026-11-12T22:11:02.2535230Z #20 exporting manifest list sha256:784dc5da86b31b38c4ceee76ed4456da98ce1f746defd7797fb35883d680d26c done
+2026-11-12T22:11:02.2535937Z #20 naming to docker.io/library/ontouchstart-aws-emulator-aws-emulator:latest done
+2026-11-12T22:11:02.2536824Z #20 unpacking to docker.io/library/ontouchstart-aws-emulator-aws-emulator:latest
+2026-11-12T22:11:04.4806188Z #20 unpacking to docker.io/library/ontouchstart-aws-emulator-aws-emulator:latest 2.4s done
+2026-11-12T22:11:04.5315926Z #20 DONE 21.1s
+2026-11-12T22:11:04.5316660Z  Image ontouchstart-aws-emulator-app-client Built 
+2026-11-12T22:11:04.5316986Z 
+2026-11-12T22:11:04.5317445Z #21 [aws-emulator] resolving provenance for metadata file
+2026-11-12T22:11:04.5317820Z #21 DONE 0.0s
+2026-11-12T22:11:04.5318188Z  Image ontouchstart-aws-emulator-aws-emulator Built 
+2026-11-12T22:11:04.5348353Z docker compose up -d aws-emulator
+2026-11-12T22:11:04.5976062Z  Network ontouchstart-aws-emulator_default Creating 
+2026-11-12T22:11:04.6239113Z  Network ontouchstart-aws-emulator_default Created 
+2026-11-12T22:11:04.6243187Z  Container ontouchstart-aws-emulator-aws-emulator-1 Creating 
+2026-11-12T22:11:07.9373953Z  Container ontouchstart-aws-emulator-aws-emulator-1 Created 
+2026-11-12T22:11:07.9442241Z  Container ontouchstart-aws-emulator-aws-emulator-1 Starting 
+2026-11-12T22:11:08.0849779Z  Container ontouchstart-aws-emulator-aws-emulator-1 Started 
+2026-11-12T22:11:08.0877815Z # 3. Run the client (The emulator is still running in the background)
+2026-11-12T22:11:08.0885737Z docker compose run --rm app-client
+2026-11-12T22:11:08.1613897Z  Container ontouchstart-aws-emulator-aws-emulator-1 Running 
+2026-11-12T22:11:08.2060549Z  Container ontouchstart-aws-emulator-app-client-run-127bfba31de0 Creating 
+2026-11-12T22:11:08.2372779Z  Container ontouchstart-aws-emulator-app-client-run-127bfba31de0 Created 
+2026-11-12T22:11:14.5830003Z Waiting for credentials at /home/emulator/.aws/emulator/9297/emulator_credentials...
+2026-11-12T22:11:14.5830893Z Credentials found. Connecting to https://127.0.0.1:9297 using CA: /home/emulator/.aws/emulator/9297/ca.pem...
+2026-11-12T22:11:14.5831770Z Successfully created bucket: test-bucket-from-client
+2026-11-12T22:11:14.5832154Z Current Buckets: ['test-bucket-from-client']
+2026-11-12T22:11:14.6758064Z # 4. Clean up everything at once
+2026-11-12T22:11:14.6765752Z docker compose down -v
+2026-11-12T22:11:14.7259940Z  Container ontouchstart-aws-emulator-aws-emulator-1 Stopping 
+2026-11-12T22:11:14.8335223Z  Container ontouchstart-aws-emulator-aws-emulator-1 Stopped 
+2026-11-12T22:11:14.8336020Z  Container ontouchstart-aws-emulator-aws-emulator-1 Removing 
+2026-11-12T22:11:14.8400730Z  Container ontouchstart-aws-emulator-aws-emulator-1 Removed 
+2026-11-12T22:11:14.8414006Z  Network ontouchstart-aws-emulator_default Removing 
+2026-11-12T22:11:14.9161797Z  Network ontouchstart-aws-emulator_default Removed 
+2026-11-12T22:11:14.9189151Z rm -rf home
+2026-11-12T22:11:14.9361533Z Post job cleanup.
+2026-11-12T22:11:15.0117516Z [command]/usr/bin/git version
+2026-11-12T22:11:15.0177355Z git version 2.56.1
+2026-11-12T22:11:15.0189673Z Temporarily overriding HOME='/home/runner/work/_temp/a251b295-cee1-4560-8a07-7074d522c2a4' before making global git config changes
+2026-11-12T22:11:15.0190529Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-12T22:11:15.0191268Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator
+2026-11-12T22:11:15.0228185Z Removing SSH command configuration
+2026-11-12T22:11:15.0228868Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-12T22:11:15.0268449Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-12T22:11:15.0539221Z Removing HTTP extra header
+2026-11-12T22:11:15.0545528Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-12T22:11:15.0589562Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-12T22:11:15.0887729Z Removing includeIf entries pointing to credentials config files
+2026-11-12T22:11:15.0893930Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-12T22:11:15.0919607Z includeif.gitdir:/home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator/.git.path
+2026-11-12T22:11:15.0920809Z includeif.gitdir:/home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator/.git/worktrees/*.path
+2026-11-12T22:11:15.0921649Z includeif.gitdir:/github/workspace/.git.path
+2026-11-12T22:11:15.0922073Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-12T22:11:15.0929359Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator/.git.path
+2026-11-12T22:11:15.0952747Z /home/runner/work/_temp/git-credentials-0ce7d4a9-c1c1-4fcc-9c5a-4ab698b48aa8.config
+2026-11-12T22:11:15.0963240Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-0ce7d4a9\-c1c1\-4fcc\-9c5a\-4ab698b48aa8\.config
+2026-11-12T22:11:15.0998511Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator/.git/worktrees/*.path
+2026-11-12T22:11:15.1021802Z /home/runner/work/_temp/git-credentials-0ce7d4a9-c1c1-4fcc-9c5a-4ab698b48aa8.config
+2026-11-12T22:11:15.1037359Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/ontouchstart-aws-emulator/ontouchstart-aws-emulator/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-0ce7d4a9\-c1c1\-4fcc\-9c5a\-4ab698b48aa8\.config
+2026-11-12T22:11:15.1070136Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-12T22:11:15.1093167Z /github/runner_temp/git-credentials-0ce7d4a9-c1c1-4fcc-9c5a-4ab698b48aa8.config
+2026-11-12T22:11:15.1101185Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-0ce7d4a9\-c1c1\-4fcc\-9c5a\-4ab698b48aa8\.config
+2026-11-12T22:11:15.1138408Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-12T22:11:15.1162336Z /github/runner_temp/git-credentials-0ce7d4a9-c1c1-4fcc-9c5a-4ab698b48aa8.config
+2026-11-12T22:11:15.1170088Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-0ce7d4a9\-c1c1\-4fcc\-9c5a\-4ab698b48aa8\.config
+2026-11-12T22:11:15.1205060Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-12T22:11:15.1473929Z Removing credentials config '/home/runner/work/_temp/git-credentials-0ce7d4a9-c1c1-4fcc-9c5a-4ab698b48aa8.config'
+2026-11-12T22:11:15.1632972Z Cleaning up orphan processes
+
