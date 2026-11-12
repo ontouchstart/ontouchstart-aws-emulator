@@ -31,10 +31,7 @@ s3 = boto3.client(
     's3',
     endpoint_url=endpoint_url,
     region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1"),
-    # TODO: fix it
-    # POINT TO THE CA FILE INSTEAD OF False
-    # verify=ca_path  
-    verify=False 
+    verify=ca_path
 )
 
 # Create a bucket to test
