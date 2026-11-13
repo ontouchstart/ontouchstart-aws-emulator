@@ -8,8 +8,8 @@ batch:
 	docker compose build
 	docker compose up -d aws-emulator
 	
-	# 3. Run the client (The emulator is still running in the background)
-	docker compose run --rm app-client
+	# 3. Run the s3-client (The emulator is still running in the background)
+	docker compose run --rm s3-client
 	
 	# 4. Clean up everything at once
 	docker compose down -v

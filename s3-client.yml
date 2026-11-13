@@ -1,6 +1,6 @@
 services:
-  app-client:
-    build: ./client
+  s3-client:
+    build: ./s3-client
     network_mode: "host" 
     depends_on:
       - aws-emulator
