@@ -11,4 +11,7 @@ services:
       - HOME=/home/emulator
       - PYTHONWARNINGS=ignore:Unverified HTTPS request
     volumes:
-      - ./home:/home/emulator/.aws/emulator
+      - emulator_data:/home/emulator/.aws/emulator
+
+volumes:
+  emulator_data:

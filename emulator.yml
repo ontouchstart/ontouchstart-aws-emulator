@@ -7,7 +7,10 @@ services:
       resources:
         limits:
           memory: 2G
-    volumes:
-      - ./home:/home/emulator/.aws/emulator
     entrypoint: ["aws-emulator", "-b", "0.0.0.0"]
     command: ["-p", "9297", "-a", "on", "--telemetry", "off"]
+    volumes:
+      - emulator_data:/home/emulator/.aws/emulator
+
+volumes:
+  emulator_data:

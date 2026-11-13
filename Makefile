@@ -1,17 +1,11 @@
 batch:
-	# 1. Prepare the directory and ensure the container can write to it
-	rm -rf home
-	mkdir home
-	chmod 777 home
-	
-	# 2. Build and start the emulator
+	# 1. Build and start the emulator
 	docker compose build
 	docker compose up -d aws-emulator
 	
-	# 3. Run the s3-client (The emulator is still running in the background)
+	# 2. Run the s3-client (The emulator is still running in the background)
 	docker compose run --rm s3-client
 	
-	# 4. Clean up everything at once
+	# 3. Clean up everything at once
 	docker compose down -v
-	rm -rf home
 
