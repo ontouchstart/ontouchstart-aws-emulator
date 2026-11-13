@@ -5780,3 +5780,504 @@ chmod -R 777 ./home
 
 > 
 
+```
+nix run github:BaseLayer-AI/baselayer-ai-aarch64-darwin-llama-cpp -- cli -hf ggml-org/gemma-4-12B-it-GGUF:Q8_0 --reasoning on  --reasoning-effort max  
+
+
+Loading model...  
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b11669-620d222
+model      : ggml-org/gemma-4-12B-it-GGUF:Q8_0
+ftype      : Q8_0
+modalities : text, vision, audio, video
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+  /image <file>       add an image file
+  /audio <file>       add an audio file
+  /video <file>       add a video file
+
+```
+
+> /read github/ontouchstart/ontouchstart-aws-emulator/compose.yml     
+Loaded text from 'github/ontouchstart/ontouchstart-aws-emulator/compose.yml'
+
+> /read github/ontouchstart/ontouchstart-aws-emulator/s3-client.yml
+Loaded text from 'github/ontouchstart/ontouchstart-aws-emulator/s3-client.yml'
+
+> /read github/ontouchstart/ontouchstart-aws-emulator/s3-client/Dockerfile
+Loaded text from 'github/ontouchstart/ontouchstart-aws-emulator/s3-client/Dockerfile'
+
+> /read github/ontouchstart/ontouchstart-aws-emulator/s3-client/main.py   
+Loaded text from 'github/ontouchstart/ontouchstart-aws-emulator/s3-client/main.py'
+
+> /read github/ontouchstart/ontouchstart-aws-emulator/Makefile         
+Loaded text from 'github/ontouchstart/ontouchstart-aws-emulator/Makefile'
+
+> Follow the sampe pattern as s3-client, what client shall we test next?
+
+[Start thinking]
+
+The user wants to create another client to test an AWS emulator (specifically S3), following the same pattern as `s3-client`.
+
+    *   `compose.yml`: Includes `emulator.yml` (which contains `aws-emulator`) and `s3-client.yml`.
+    *   `s3-client.yml`: Defines a service `s3-client` that uses `boto3`, connects to an `aws-emulator` via `AWS_ENDPOINT_URL`, and shares a volume for credentials/certs.
+    *   `s3-client/Dockerfile`: Standard Python image with `boto3`.
+    *   `s3-client/main.py`: Waits for files in the shared volume, initializes a `boto3.client('s3', ...)` with a CA certificate, and performs basic operations (create bucket, list buckets).
+    *   `Makefile`: Builds, starts the emulator, runs the client, and cleans up.
+
+    *   AWS provides many services. Common ones tested in local emulators (like LocalStack, which this looks like a custom/lightweight version of) are:
+        *   **DynamoDB** (NoSQL Database)
+        *   **SQS** (Simple Queue Service)
+        *   **Lambda** (Serverless - usually harder to test via a simple script, but possible)
+        *   **SNS** (Simple Notification Service)
+        *   **Secrets Manager** (Secret storage)
+        *   **IAM** (Identity and Access Management)
+
+    *   *Option A: DynamoDB.* High demand, very common in serverless stacks.
+    *   *Option B: SQS.* Very common for asynchronous messaging.
+    *   *Option C: Secrets Manager.* Simple to test, but maybe less "visual" than a database.
+
+    *Decision:* **DynamoDB** is the best next step because it represents a different type of storage (NoSQL vs. Object storage) and is a staple of AWS development.
+
+    *   **Step 1: Create `dynamodb-client.yml`** (Following `s3-client.yml` pattern).
+        *   Need to update `compose.yml` to include it.
+        *   Need to ensure it points to the same emulator port/endpoint.
+    *   **Step 2: Create `dynamodb-client/Dockerfile`**.
+        *   Same base, just need `boto3`.
+    *   **Step 3: Create `dynamodb-client/main.py`**.
+        *   Wait for credentials (same logic).
+        *   Initialize `boto3.client('dynamodb', ...)`.
+        *   Perform actions: `create_table`, `put_item`, `get_item`.
+    *   **Step 4: Update `Makefile`**.
+        *   Add a target for the dynamodb-client.
+
+    *   *Issue:* `s3-client.yml` uses `network_mode: "host"`. This is risky/specific. If the emulator is also on host or a specific network, the client needs to reach it.
+    *   *Issue:* The `AWS_ENDPOINT_URL` in `s3-client.yml` is `https://127.0.0.1:9297`. Since it's `network_mode: "host"`, `127.0.0.1` refers to the host machine.
+    *   *Observation:* The script `main.py` says `endpoint_url = os.getenv("AWS_ENDPOINT_URL", "https://aws-emulator:9297")`. This implies the user might want to switch between host networking and docker networking. I will stick to the provided pattern.
+
+    *   *File 1: `compose.yml`* (Update to include `dynamodb-client.yml`)
+    *   *File 2: `dynamodb-client.yml`* (New file)
+    *   *File 3: `dynamodb-client/Dockerfile`* (New file)
+    *   *File 4: `dynamodb-client/main.py`* (New file)
+    *   *File 5: `Makefile`* (Update)
+[End thinking]
+
+Given the pattern established by the `s3-client`, the most logical next service to test is **DynamoDB**. 
+
+DynamoDB is the primary NoSQL database service in AWS and, like S3, is a staple of serverless and microservice architectures. Testing it allows you to verify that the emulator handles different types of AWS requests (Data vs. Object Storage).
+
+Here is the implementation following your exact pattern:
+
+### 1. Update `compose.yml`
+Add the new client to the includes.
+
+```yaml
+--- File: github/ontouchstart/ontouchstart-aws-emulator/compose.yml ---
+include:
+  - emulator.yml
+  - s3-client.yml
+  - dynamodb-client.yml
+```
+
+### 2. Create `dynamodb-client.yml`
+This follows the exact configuration of the S3 client but targets the DynamoDB service.
+
+```yaml
+--- File: github/ontouchstart/ontouchstart-aws-emulator/dynamodb-client.yml ---
+services:
+  dynamodb-client:
+    build: ./dynamodb-client
+    network_mode: "host" 
+    depends_on:
+      - aws-emulator
+    environment:
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ENDPOINT_URL=https://127.0.0.1:9297
+      - AWS_SHARED_CREDENTIALS_FILE=/home/emulator/.aws/emulator/9297/emulator_credentials
+      - HOME=/home/emulator
+      - PYTHONWARNINGS=ignore:Unverified HTTPS request
+    volumes:
+      - emulator_data:/home/emulator/.aws/emulator
+
+volumes:
+  emulator_data:
+```
+
+### 3. Create `dynamodb-client/Dockerfile`
+Same base as the S3 client.
+
+```dockerfile
+--- File: github/ontouchstart/ontouchstart-aws-emulator/dynamodb-client/Dockerfile ---
+FROM python:3.11-slim
+RUN pip install boto3
+WORKDIR /app
+COPY main.py .
+CMD ["python", "main.py"]
+```
+
+### 4. Create `dynamodb-client/main.py`
+This script waits for credentials and then performs standard DynamoDB operations (Create Table, Put Item, Get Item).
+
+```python
+--- File: github/ontouchstart/ontouchstart-aws-emulator/dynamodb-client/main.py ---
+import boto3
+import os
+import time
+
+# The hostname "aws-emulator" is provided by Docker's internal DNS
+endpoint_url = os.getenv("AWS_ENDPOINT_URL", "https://aws-emulator:9297")
+
+# Paths to the files generated by the emulator in the shared volume
+creds_path = "/home/emulator/.aws/emulator/9297/emulator_credentials"
+ca_path = "/home/emulator/.aws/emulator/9297/ca.pem"
+
+print(f"Waiting for credentials at {creds_path}...")
+
+# Wait for the emulator to initialize files
+timeout = 30
+start_time = time.time()
+while not os.path.exists(creds_path):
+    time.sleep(1)
+    if time.time() - start_time > timeout:
+        print("Timeout waiting for emulator files.")
+        exit(1)
+
+# Wait a tiny bit extra to ensure ca.pem is fully written/available
+time.sleep(1)
+
+print(f"Credentials found. Connecting to {endpoint_url} using CA: {ca_path}...")
+
+# Initialize the DynamoDB client
+dynamodb = boto3.client(
+    'dynamodb',
+    endpoint_url=endpoint_url,
+    region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1"),
+    verify=ca_path
+)
+
+table_name = "TestTable"
+
+try:
+    # 1. Create a table
+    print(f"Creating table: {table_name}...")
+    dynamodb.create_table(
+        TableName=table_name,
+        KeySchema=[{'AttributeName': 'id', 'KeyType': 'HASH'}],
+        AttributeDefinitions=[{'AttributeName': 'id', 'AttributeType': 'S'}],
+        ProvisionedThroughput={'ReadCapacityUnits': 5, 'WriteCapacityUnits': 5}
+    )
+    
+    # Wait for table to become active (simulated)
+    time.sleep(2)
+
+    # 2. Put an item
+    print("Putting an item...")
+    dynamodb.put_item(
+        TableName=table_name,
+        Item={
+            'id': {'S': 'user_1'},
+            'name': {'S': 'John Doe'},
+            'status': {'S': 'active'}
+        }
+    )
+
+    # 3. Get the item
+    print("Getting the item...")
+    response = dynamodb.get_item(TableName=table_name, Key={'id': {'S': 'user_1'}})
+    print("Item retrieved:", response.get('Item'))
+
+except Exception as e:
+    print(f"Error: {e}")
+```
+
+### 5. Update `Makefile`
+Add the new target so you can run both tests easily.
+
+```makefile
+--- File: github/ontouchstart/ontouchstart-aws-emulator/Makefile ---
+build:
+	docker compose build
+
+up:
+	docker compose up -d aws-emulator
+
+# Run the S3 client test
+test-s3:
+	docker compose run --rm s3-client
+
+# Run the DynamoDB client test
+test-dynamodb:
+	docker compose run --rm dynamodb-client
+
+# Run all tests
+test-all: test-s3 test-dynamodb
+
+down:
+	docker compose down -v
+```
+
+### Why DynamoDB next?
+1.  **Different API Signature:** Unlike S3 (Object Storage), DynamoDB uses a Request/Response pattern for specific items, ensuring your `endpoint_url` and `verify` logic work for different Boto3 clients.
+2.  **Standard Workflow:** If your project uses S3, it is highly likely it will eventually use DynamoDB for state or metadata.
+3.  **Complexity:** It introduces "Table" concepts, which is the next level of complexity after "Buckets."
+
+[ Prompt: 183.4 t/s | Generation: 7.1 t/s ]
+
+> /read github/ontouchstart/ontouchstart-aws-emulator/logs/14.error.log 
+Loaded text from 'github/ontouchstart/ontouchstart-aws-emulator/logs/14.error.log'
+
+> debug
+
+[Start thinking]
+
+`dynamodb-client` (Python/Boto3) connects successfully to the emulator at `https://127.0.0.1:9297`.
+`Creating table: TestTable...` (Success, or at least no exception thrown yet).
+`Putting an item...`
+`Error: An error occurred (ResourceNotFoundException) when calling the PutItem operation: Requested resource not found`.
+
+    *   The emulator (likely LocalStack or a custom implementation) might have a slight delay between "Create Table" being acknowledged and the table being "Active".
+    *   In the `main.py` script, I added a `time.sleep(2)`, but some emulators/local environments might need more time or a polling loop to confirm the table status.
+    *   The `ResourceNotFoundException` on `PutItem` specifically means that while the `create_table` command finished without a hard error, the table isn't "visible" or "ready" to accept writes yet.
+
+    *   *Solution A: Increase the sleep.* (Brute force, not ideal).
+    *   *Solution B: Implement a "Wait until Active" loop.* (The correct "AWS way" using `waiter` or a loop checking `describe_table`).
+    *   *Solution C: Check for Emulator-specific behavior.* Some emulators create the table instantly, but Boto3's `create_table` doesn't wait for success unless instructed.
+
+    *   Update `dynamodb-client/main.py` to include a polling loop that checks the table status before proceeding to `put_item`.
+
+    *   *Step 1: Describe the table.* Call `describe_table`.
+    *   *Step 2: Check status.* Look for `TableStatus` in the response.
+    *   *Step 3: Loop.* Wait until it's `ACTIVE`.
+
+    *   Does the emulator support `describe_table`? Most S3/DynamoDB emulators (like LocalStack) do.
+    *   Is there an easier way? Just a longer sleep? No, polling is more robust.
+
+    *   Show the updated `main.py` for `dynamodb-client`.
+    *   Explain *why* this happened (Asynchronous nature of Cloud API calls).
+
+    *(Self-Correction during drafting)*: Wait, since this is a *local emulator*, sometimes the emulator is "instant" but the internal state isn't propagated fast enough. Let's add a robust polling loop to ensure it works regardless of emulator speed.
+
+    *Code modification for `main.py`*:
+    ```python
+    # ... after create_table ...
+    print("Waiting for table to become ACTIVE...")
+    while True:
+        try:
+            res = dynamodb.describe_table(TableName=table_name)
+            status = res['Table']['TableStatus']
+            if status == 'ACTIVE':
+                break
+            print(f"Table status: {status}. Waiting...")
+        except Exception as e:
+            print(f"Waiting for table... ({e})")
+        time.sleep(1)
+    ```
+[End thinking]
+
+The error `ResourceNotFoundException` occurring between `create_table` and `put_item` is a classic AWS behavior (even in emulators). 
+
+When you call `create_table`, the API acknowledges the request immediately, but the table goes through an **"Active"** state transition. If you try to write to the table while it is still in the `CREATING` status, the emulator returns "Resource Not Found" because the table isn't ready to receive traffic yet.
+
+To fix this, you need to implement a **polling loop** (or a "waiter") to check the table status before proceeding.
+
+### The Fix: Update `dynamodb-client/main.py`
+
+Replace the `main.py` content with this version, which includes a loop to wait for the `ACTIVE` status:
+
+```python
+--- File: github/ontouchstart/ontouchstart-aws-emulator/dynamodb-client/main.py ---
+import boto3
+import os
+import time
+
+# The hostname "aws-emulator" is provided by Docker's internal DNS
+endpoint_url = os.getenv("AWS_ENDPOINT_URL", "https://aws-emulator:9297")
+
+# Paths to the files generated by the emulator in the shared volume
+creds_path = "/home/emulator/.aws/emulator/9297/emulator_credentials"
+ca_path = "/home/emulator/.aws/emulator/9297/ca.pem"
+
+print(f"Waiting for credentials at {creds_path}...")
+
+# Wait for the emulator to initialize files
+timeout = 30
+start_time = time.time()
+while not os.path.exists(creds_path):
+    time.sleep(1)
+    if time.time() - start_time > timeout:
+        print("Timeout waiting for emulator files.")
+        exit(1)
+
+# Wait a tiny bit extra to ensure ca.pem is fully written/available
+time.sleep(1)
+
+print(f"Credentials found. Connecting to {endpoint_url} using CA: {ca_path}...")
+
+# Initialize the DynamoDB client
+dynamodb = boto3.client(
+    'dynamodb',
+    endpoint_url=endpoint_url,
+    region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1"),
+    verify=ca_path
+)
+
+table_name = "TestTable"
+
+try:
+    # 1. Create a table
+    print(f"Creating table: {table_name}...")
+    dynamodb.create_table(
+        TableName=table_name,
+        KeySchema=[{'AttributeName': 'id', 'KeyType': 'HASH'}],
+        AttributeDefinitions=[{'AttributeName': 'id', 'AttributeType': 'S'}],
+        ProvisionedThroughput={'ReadCapacityUnits': 5, 'WriteCapacityUnits': 5}
+    )
+
+    # 2. POLL until the table is ACTIVE
+    print("Waiting for table to become ACTIVE...")
+    max_retries = 10
+    for i in range(max_retries):
+        try:
+            response = dynamodb.describe_table(TableName=table_name)
+            status = response['Table']['TableStatus']
+            if status == 'ACTIVE':
+                print("Table is now ACTIVE.")
+                break
+            print(f"Table status is {status}. Retrying in 1s... ({i+1}/{max_retries})")
+        except Exception as e:
+            print(f"Table not ready yet ({e})...")
+        
+        time.sleep(1)
+    else:
+        print("Timed out waiting for table to become active.")
+        exit(1)
+
+    # 3. Put an item
+    print("Putting an item...")
+    dynamodb.put_item(
+        TableName=table_name,
+        Item={
+            'id': {'S': 'user_1'},
+            'name': {'S': 'John Doe'},
+            'status': {'S': 'active'}
+        }
+    )
+
+    # 4. Get the item
+    print("Getting the item...")
+    response = dynamodb.get_item(TableName=table_name, Key={'id': {'S': 'user_1'}})
+    print("Item retrieved:", response.get('Item'))
+
+except Exception as e:
+    print(f"Error: {e}")
+```
+
+### What changed?
+1.  **`describe_table` loop**: I added a `for` loop that calls `describe_table`.
+2.  **Status Checking**: It checks the `TableStatus` field. The script will now pause until the emulator confirms the table is `ACTIVE`.
+3.  **Robustness**: This mimics how production AWS SDKs handle "Waiters," ensuring your test doesn't flake out based on how fast the emulator's CPU is.
+
+### How to run it:
+Run the same command again:
+```bash
+make test-dynamodb
+```
+It should now pass the "Putting an item" step successfully.
+
+[ Prompt: 155.7 t/s | Generation: 7.9 t/s ]
+
+> /read github/ontouchstart/ontouchstart-aws-emulator/logs/15.log      
+Loaded text from 'github/ontouchstart/ontouchstart-aws-emulator/logs/15.log'
+
+> Summerize 
+
+[Start thinking]
+
+A GitHub Actions log (`15.log`) for a project named `ontouchstart-aws-emulator`.
+Summarize the log.
+
+    *   *Environment Setup:*
+        *   Runner: Ubuntu 26.04 LTS (arm64).
+        *   Host: Azure.
+        *   Action: `actions/checkout@v7` (fetching the `ontouchstart-aws-emulator` repo).
+    *   *Build Process:*
+        *   `make` command is executed.
+        *   `docker compose build` is called.
+        *   Three images are built: `aws-emulator`, `s3-client`, and `dynamodb-client`.
+        *   The `aws-emulator` image is built from an Amazon Linux 2023 base, involving a `.rpm` file download/install.
+    *   *Execution Phase:*
+        *   `docker compose up -d aws-emulator`: The core emulator container starts successfully.
+        *   `docker compose run --rm s3-client`: The S3 client container runs.
+            *   Wait for credentials: Success.
+            *   Create bucket: Success (`test-bucket-from-client`).
+            *   List buckets: Success.
+        *   `docker compose run --rm dynamodb-client`: The DynamoDB client container runs.
+            *   Wait for credentials: Success.
+            *   Create table: Success.
+            *   Poll for "ACTIVE" status: Success (wait loop worked).
+            *   Put item: Success.
+            *   Get item: Success (verified data retrieval).
+    *   *Cleanup:*
+        *   `docker compose down -v`: All containers, networks, and volumes are removed.
+    *   *Conclusion:* The CI/CD job finished successfully.
+
+    *   *Draft 1 (Internal Monologue):* The log shows a GitHub Action running on an Ubuntu arm64 runner. It checked out the repo and ran `make`. This triggered a docker build of the emulator and two clients (S3 and DynamoDB). Then it started the emulator. It tested the S3 client, which created and listed a bucket. Then it tested the DynamoDB client, which waited for a table to become active, put an item, and got it back. Finally, it cleaned everything up.
+
+    *   *Draft 2 (Structured for the user):*
+        The log describes a successful CI/CD run for the `ontouchstart-aws-emulator` project.
+        Key steps:
+        1. Environment: Ubuntu 26.04 (arm64) on Azure.
+        2. Build: Compiled three Docker images (`aws-emulator`, `s3-client`, `dynamodb-client`).
+        3. Test S3: Successfully connected to the emulator, created a bucket, and listed it.
+        4. Test DynamoDB: Successfully connected, created a table, waited for it to be active (handling the polling logic correctly), put a record, and retrieved it.
+        5. Cleanup: Removed all containers and volumes.
+
+    *   *Final Polish (Professional Summary):* Organize into "Execution Overview," "Key Milestones," and "Result."
+[End thinking]
+
+The provided log shows a **successful CI/CD execution** of the `ontouchstart-aws-emulator` project on a GitHub Actions runner (Ubuntu 26.04, ARM64).
+
+Here is the summary of the execution flow:
+
+### 1. Environment & Initialization
+*   **Runner:** Hosted on Azure, running Ubuntu 26.04 (arm64).
+*   **Checkout:** The repository was successfully cloned and prepared.
+*   **Build Phase:** The `make` command triggered `docker compose build`, successfully building three distinct images:
+    *   `aws-emulator` (the core service)
+    *   `s3-client` (the S3 testing utility)
+    *   `dynamodb-client` (the DynamoDB testing utility)
+
+### 2. Test Execution
+The workflow proceeded to run the clients against the live emulator:
+
+*   **Emulator Startup:** The `aws-emulator` container was started in detached mode.
+*   **S3 Client Test:**
+    *   Successfully waited for credentials to appear in the shared volume.
+    *   Connected to the emulator on `https://127.0.0.1:9297`.
+    *   **Result:** Successfully created and listed the bucket `test-bucket-from-client`.
+*   **DynamoDB Client Test:**
+    *   Successfully waited for credentials.
+    *   Initiated table creation (`TestTable`).
+    *   **Polling Logic:** Correctly waited for the table status to transition to `ACTIVE`.
+    *   **Data Operations:** Successfully performed a `put_item` and verified the data with a `get_item`.
+    *   **Result:** Successfully retrieved the item: `{'status': {'S': 'active'}, 'id': {'S': 'user_1'}, 'name': {'S': 'John Doe'}}`.
+
+### 3. Cleanup
+*   The `docker compose down -v` command was executed, successfully removing all containers, networks, and the `emulator_data` volume.
+
+**Final Status: Success.** All integration tests for both S3 and DynamoDB passed.
+
+[ Prompt: 208.7 t/s | Generation: 7.1 t/s ]
